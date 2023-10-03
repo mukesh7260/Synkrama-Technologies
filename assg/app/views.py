@@ -4,7 +4,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import *
 from django.contrib.auth.models import User
 from rest_framework.validators import ValidationError 
-from rest_framework.decorators import api_view 
+from rest_framework.decorators import api_view , permission_classes
 from rest_framework.response import Response 
 from django.core.mail import BadHeaderError, send_mail
 from rest_framework.permissions import IsAuthenticated
@@ -41,6 +41,7 @@ class LoginApi(APIView):
     
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated]) 
 def create(request):
     user = request.user 
     subject = 'Assignment work have to complete todays anyhow '
@@ -57,6 +58,7 @@ def create(request):
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated]) 
 def get(request):
     user = request.user
     pst = Post.objects.all()
@@ -66,6 +68,7 @@ def get(request):
     return Response({'serialized_data':serializer.data,'access_token':access_token})
 
 @api_view(['PATCH'])
+@permission_classes([IsAuthenticated]) 
 def partial_update(request,pk):
     user = request.user
     pst = Post.objects.get(pk=pk)
@@ -80,6 +83,7 @@ def partial_update(request,pk):
 
 
 @api_view(['PUT'])
+@permission_classes([IsAuthenticated]) 
 def fully_update(request,pk):
     user = request.user
     pst = Post.objects.get(pk=pk)
@@ -93,6 +97,7 @@ def fully_update(request,pk):
 
 
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated]) 
 def deleted(request,pk):
     user = request.user
     refresh = RefreshToken.for_user(user)
