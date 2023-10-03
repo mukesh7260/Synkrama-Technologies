@@ -1,6 +1,5 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import *
 from django.contrib.auth.models import User
@@ -8,7 +7,8 @@ from rest_framework.validators import ValidationError
 from rest_framework.decorators import api_view 
 from rest_framework.response import Response 
 from django.core.mail import BadHeaderError, send_mail
-
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions,status
 
 class Register(APIView):
     def post(self, request , format=None): 
@@ -23,6 +23,7 @@ class Register(APIView):
     
     
 class LoginApi(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request, format=None):
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)  
