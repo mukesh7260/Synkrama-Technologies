@@ -8,3 +8,16 @@ class Post(models.Model):
     
     def __str__(self):
             return self.title
+    
+
+# write own models 
+
+class Mobile(models.Model): 
+    name = models.CharField(max_length=25,null=True,blank=True) 
+    ram = models.IntegerField(null=True,blank=True) 
+    rom = models.IntegerField(null=True,blank=True) 
+    price = models.IntegerField(null=True,blank=True) 
+    brand = models.CharField(max_length=25,null=True,blank=True) 
+    
+    def __str__(self):
+            return self.name
